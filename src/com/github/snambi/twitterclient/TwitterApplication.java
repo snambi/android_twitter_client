@@ -2,6 +2,7 @@ package com.github.snambi.twitterclient;
 
 import android.content.Context;
 
+import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -15,24 +16,26 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  *     // use client to send requests to API
  *     
  */
-public class RestClientApp extends com.activeandroid.app.Application {
+public class TwitterApplication extends com.activeandroid.app.Application {
 	private static Context context;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		RestClientApp.context = this;
+		TwitterApplication.context = this;
 
 		// Create global configuration and initialize ImageLoader with this configuration
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
 				cacheInMemory().cacheOnDisc().build();
+		
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-		.defaultDisplayImageOptions(defaultOptions)
-		.build();
+											.defaultDisplayImageOptions(defaultOptions)
+											.build();
+		
 		ImageLoader.getInstance().init(config);
 	}
 
 	public static TwitterRestClient getRestClient() {
-		return (TwitterRestClient) TwitterRestClient.getInstance(TwitterRestClient.class, RestClientApp.context);
+		return (TwitterRestClient) TwitterRestClient.getInstance(TwitterRestClient.class, TwitterApplication.context);
 	}
 }

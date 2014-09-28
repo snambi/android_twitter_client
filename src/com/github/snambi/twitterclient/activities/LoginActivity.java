@@ -1,12 +1,14 @@
-package com.github.snambi.twitterclient;
+package com.github.snambi.twitterclient.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.codepath.apps.restclienttemplate.R;
 import com.codepath.oauth.OAuthLoginActivity;
+import com.github.snambi.twitterclient.R;
+import com.github.snambi.twitterclient.clients.TwitterRestClient;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
 
@@ -28,8 +30,8 @@ public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
 	@Override
 	public void onLoginSuccess() {
 		Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-		// Intent i = new Intent(this, PhotosActivity.class);
-		// startActivity(i);
+		Intent i = new Intent(this, TimelineActivity.class);
+		startActivity(i);
 	}
 
 	// OAuth authentication flow failed, handle the error

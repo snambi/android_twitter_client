@@ -1,4 +1,4 @@
-package com.github.snambi.twitterclient;
+package com.github.snambi.twitterclient.clients;
 
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
@@ -23,13 +23,22 @@ import com.loopj.android.http.RequestParams;
  */
 public class TwitterRestClient extends OAuthBaseClient {
 	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change this
-	public static final String REST_URL = "https://api.twitter.com/1.1/"; // Change this, base API URL
+	public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
 	public static final String REST_CONSUMER_KEY = "308Y6AhszvPZK1Tg9l7RDXf9Z";       // Change this
 	public static final String REST_CONSUMER_SECRET = "xdRYse6QDDbWkE5bFA7xB5XsLwl6DWusTUSytx7TMge4LE1YNS"; // Change this
 	public static final String REST_CALLBACK_URL = "oauth://twitterclientnambi"; // Change this (here and in manifest)
 
 	public TwitterRestClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
+	}
+	
+	
+	public void getHomeTimeLine( AsyncHttpResponseHandler responseHandler ){
+		
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("since_id", "1");
+		client.get(apiUrl, params, responseHandler);
 	}
 
 	// CHANGE THIS
