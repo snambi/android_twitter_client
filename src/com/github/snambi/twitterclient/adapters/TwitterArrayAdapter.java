@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.models.Tweet;
+import com.github.snambi.twitterclient.utils.TwitterTimeUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TwitterArrayAdapter extends ArrayAdapter<Tweet>{
@@ -39,6 +40,7 @@ public class TwitterArrayAdapter extends ArrayAdapter<Tweet>{
 			holder.imgProfileImage = (ImageView) v.findViewById(R.id.imgItemProfileImage);
 			holder.tvScreenName = (TextView) v.findViewById(R.id.tvScreenName);
 			holder.tvBody = (TextView) v.findViewById(R.id.tvTweetBody);
+			holder.tvCreatedTime = (TextView) v.findViewById(R.id.tvTweetCreatedTime);
 		}else{
 			holder = (ViewHolder) v.getTag();
 		}
@@ -50,6 +52,8 @@ public class TwitterArrayAdapter extends ArrayAdapter<Tweet>{
 		
 		holder.tvBody.setText( tweet.getBody());
 		holder.tvScreenName.setText( tweet.getUser().getScreenName());
+		String relativeTime = TwitterTimeUtils.getRelativeTimeAgo( tweet.getCreatedAt());
+		holder.tvCreatedTime.setText(relativeTime);
 		
 		return v;
 	}
@@ -58,5 +62,6 @@ public class TwitterArrayAdapter extends ArrayAdapter<Tweet>{
 		ImageView imgProfileImage;
 		TextView tvScreenName;
 		TextView tvBody;
+		TextView tvCreatedTime;
 	}
 }

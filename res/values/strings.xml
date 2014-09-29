@@ -9,5 +9,6 @@
     <string name="title_activity_timeline">TimelineActivity</string>
     <string name="text_tweet_body">Sample Tweet Body</string>
     <string name="text_screen_name">\@foo</string>
+    <string name="tweet_create_time">22m</string>
 
 </resources>

@@ -1,11 +1,14 @@
 package com.github.snambi.twitterclient.clients;
 
+import java.util.List;
+
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
+import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -37,19 +40,29 @@ public class TwitterRestClient extends OAuthBaseClient {
 		
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
-		params.put("since_id", "1");
-		client.get(apiUrl, params, responseHandler);
+		
+		// get the sinceId and maxId
+		TimelineCounter counter = TimelineCounter.getInstance();
+		
+		boolean m = false;
+		boolean s = false;
+//		if( counter.getSinceId() > 0){
+//			params.put("since_id", counter.getSinceIdStr() );
+//			s=true;
+//		}
+		if( counter.getMaxId() > 0){
+			params.put("max_id", counter.getMaxIdStr() );
+			m=true;
+		}
+		
+		if( s==false && m==false){
+			client.get(apiUrl, null, responseHandler);
+		}else{
+			client.get(apiUrl, params, responseHandler);
+		}
+		
 	}
 
-	// CHANGE THIS
-	// DEFINE METHODS for different API endpoints here
-//	public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-//		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-//		// Can specify query string params directly or through RequestParams.
-//		RequestParams params = new RequestParams();
-//		params.put("format", "json");
-//		client.get(apiUrl, params, handler);
-//	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
@@ -59,4 +72,90 @@ public class TwitterRestClient extends OAuthBaseClient {
 	 *    i.e client.get(apiUrl, params, handler);
 	 *    i.e client.post(apiUrl, params, handler);
 	 */
+	
+	
+	/**
+	 * <code>TimelineCounter</code> keeps track of which tweets are downloaded and which need to be fetched.
+	 * this is a singleton.
+	 */
+	public static  class TimelineCounter{
+		
+		// max value of the received tweets
+		private long sinceId=0l;
+		// min values of the received tweets 
+		private long maxId=0l;
+		
+		private static TimelineCounter timelineCounter;
+		
+		private TimelineCounter(){
+		}
+		
+		public static TimelineCounter getInstance(){
+			if( timelineCounter == null ){
+				timelineCounter = new TimelineCounter();
+			}
+			return timelineCounter;
+		}
+
+		public long getSinceId() {
+			return sinceId;
+		}
+		public String getSinceIdStr(){
+			return ""+ sinceId;
+		}
+
+		public void setSinceId(long sinceId) {
+			this.sinceId = sinceId;
+		}
+
+		public String getMaxIdStr(){
+			return ""+ maxId;
+		}
+		
+		public long getMaxId() {
+			return maxId;
+		}
+
+		public void setMaxId(long maxId) {
+			this.maxId = maxId;
+		}
+		
+		public void setSinceIdMaxIdFrom( List<Tweet> tweets){
+			if( tweets == null || tweets.size() == 0){
+				return ;
+			}
+			
+			// find the highest id and lowest id from the list
+			long high=0;
+			long low=0;
+			
+			for( Tweet t : tweets ){
+				
+				// special case, if "low" is 0 , then start from the first value
+				if( low == 0){
+					low = t.getUid();
+				}
+				if( t.getUid() <= low){
+					low = t.getUid();
+				}
+				if( t.getUid() > high){
+					high = t.getUid();
+				}
+			}
+			
+			if( high > getSinceId() ){
+				setSinceId(high);
+			}else if( getSinceId() == 0){
+				// handle special case
+				setSinceId(high);
+				
+			}
+			if( low < getMaxId() ){
+				setMaxId(low);
+			}else if( getMaxId() == 0){
+				setMaxId(low);
+			}
+		}
+		
+	}
 }
