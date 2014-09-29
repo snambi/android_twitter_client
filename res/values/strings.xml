@@ -7,5 +7,7 @@
     <string name="title_activity_photos">Flickr Photos</string>
     <string name="login_label">Connect to Twitter</string>
     <string name="title_activity_timeline">TimelineActivity</string>
+    <string name="text_tweet_body">Sample Tweet Body</string>
+    <string name="text_screen_name">\@foo</string>
 
 </resources>
