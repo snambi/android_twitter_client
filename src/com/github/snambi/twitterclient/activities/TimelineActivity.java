@@ -7,7 +7,10 @@ import org.json.JSONArray;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.activeandroid.util.Log;
 import com.github.snambi.twitterclient.R;
@@ -48,6 +51,24 @@ public class TimelineActivity extends Activity {
 				populateTimeline();
 			}
 		});
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.compose_menu, menu);
+		
+		MenuItem item = menu.findItem(R.id.compose_menu_item);
+		item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+			
+		});
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	private void populateTimeline() {
