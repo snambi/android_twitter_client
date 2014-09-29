@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,18 +58,37 @@ public class TimelineActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.compose_menu, menu);
 		
-		MenuItem item = menu.findItem(R.id.compose_menu_item);
-		item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
-
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			
-		});
+//		MenuItem item = menu.findItem(R.id.compose_menu_item);
+//		item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+//
+//			@Override
+//			public boolean onMenuItemClick(MenuItem item) {
+//				Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+//				return true;
+//			}
+//			
+//		});
 		
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		boolean result=false;
+		
+		switch( item.getItemId() ){
+		case  R.id.compose_menu_item:
+			
+			Intent intent = new Intent(this, ComposeActivity.class);
+			result=true;
+			startActivityForResult(intent, 700);
+			
+			break;
+		default:
+			break;
+		}
+		return result;
 	}
 
 	private void populateTimeline() {

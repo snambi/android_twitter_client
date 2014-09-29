@@ -10,5 +10,8 @@
     <string name="text_tweet_body">Sample Tweet Body</string>
     <string name="text_screen_name">\@foo</string>
     <string name="tweet_create_time">22m</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="text_tweet_btn">Tweet</string>
+    <string name="text_cancel_btn">Cancel</string>
 
 </resources>
