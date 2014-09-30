@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEE"
     tools:context="${relativePackage}.${activityClass}" >
 
     <Button
@@ -10,8 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@android:style/Widget.Button.Inset"
-        android:text="@string/text_cancel_btn" />
+        android:layout_margin="4dp"
+        android:background="@drawable/twitter_button"
+        android:gravity="center"
+        android:text="@string/text_cancel_btn"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btnTweet"
@@ -19,8 +23,47 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:textColor="#FFFFFF"
-        android:background="#55ACEE"
-        android:text="@string/text_tweet_btn" />
+        android:layout_margin="4dp"
+        android:background="@drawable/twitter_button"
+        android:gravity="center"
+        android:text="@string/text_tweet_btn"
+        android:textColor="#FFFFFF" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnCancel"
+        android:layout_alignRight="@+id/btnTweet"
+        android:layout_below="@+id/btnCancel"
+        android:background="@drawable/tweet_border" >
+
+        <ImageView
+            android:id="@+id/imgProfileImage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="profile image"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvScreenName2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="screen name"
+            android:gravity="center"
+            android:text="@string/screen_name_text" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etTweetBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/tweet_border"
+        android:ems="10"
+        android:hint="Whats Happening?" />
 
 </RelativeLayout>
