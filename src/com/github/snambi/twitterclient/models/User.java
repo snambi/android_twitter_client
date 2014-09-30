@@ -1,10 +1,13 @@
 package com.github.snambi.twitterclient.models;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User {
+public class User implements Serializable{
 
+	private static final long serialVersionUID = 4124610137957134742L;
 	private String name;
 	private long id;
 	private String screenName;

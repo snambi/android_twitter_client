@@ -46,6 +46,7 @@ public class TwitterRestClient extends OAuthBaseClient {
 		
 		boolean m = false;
 		boolean s = false;
+		
 //		if( counter.getSinceId() > 0){
 //			params.put("since_id", counter.getSinceIdStr() );
 //			s=true;
@@ -61,6 +62,13 @@ public class TwitterRestClient extends OAuthBaseClient {
 			client.get(apiUrl, params, responseHandler);
 		}
 		
+	}
+	
+	
+	public void saveUserInfo( AsyncHttpResponseHandler responseHandler){
+		String api_url = getApiUrl("account/verify_credentials.json");
+		
+		client.get(api_url, responseHandler);
 	}
 
 

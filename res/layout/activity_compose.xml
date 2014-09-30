@@ -51,7 +51,12 @@
             android:layout_height="match_parent"
             android:contentDescription="screen name"
             android:gravity="center"
-            android:text="@string/screen_name_text" />
+            android:maxLines="1"
+            android:layout_margin="4dp"
+            android:padding="2dp"
+            android:text="@string/screen_name_text"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <EditText
