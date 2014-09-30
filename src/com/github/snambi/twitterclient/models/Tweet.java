@@ -8,7 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Tweet {
+import com.github.snambi.googleimagesearcher.Image;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Tweet implements Parcelable{
 
 	private String body;
 	private String createdAt;
@@ -90,5 +95,39 @@ public class Tweet {
 
 		}
 		return tweets;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(getBody());
+		dest.writeString(getCreatedAt() );
+		dest.writeLong( getUid());
+		dest.writeValue( getUser());
+	}
+	
+	public static final Parcelable.Creator<Tweet> CREATOR = new Parcelable.Creator<Tweet>() {
+
+		@Override
+		public Tweet createFromParcel(Parcel source) {
+			return new Tweet(source);
+		}
+
+		@Override
+		public Tweet[] newArray(int size) {
+			return new Tweet[size];
+		}
+	};
+	
+	private Tweet( Parcel in ){
+		
+		setBody(in.readString());
+		setCreatedAt(in.readString());
+		setUid(in.readLong());
+		
 	}
 }

@@ -15,6 +15,7 @@
         android:background="@drawable/twitter_button"
         android:gravity="center"
         android:text="@string/text_cancel_btn"
+        android:onClick="onCancelClick"
         android:textColor="#FFFFFF" />
 
     <Button
@@ -27,6 +28,7 @@
         android:background="@drawable/twitter_button"
         android:gravity="center"
         android:text="@string/text_tweet_btn"
+        android:onClick="onTweetClick"
         android:textColor="#FFFFFF" />
 
     <LinearLayout
@@ -68,6 +70,7 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="7dp"
         android:background="@drawable/tweet_border"
+        android:maxLength="140"
         android:ems="10"
         android:hint="Whats Happening?" />
 

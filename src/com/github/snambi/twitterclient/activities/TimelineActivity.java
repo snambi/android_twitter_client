@@ -134,6 +134,7 @@ public class TimelineActivity extends Activity {
 				prefs.edit().putString("user_name", user.getName()).apply();
 				prefs.edit().putString("screen_name", user.getScreenName()).apply();
 				prefs.edit().putString("image_profile_url", user.getProfileImageUrl()).apply();
+				prefs.edit().putLong("id", user.getId()).apply();
 			}
 		});
 	}

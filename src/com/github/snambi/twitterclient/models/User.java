@@ -5,7 +5,10 @@ import java.io.Serializable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User implements Serializable{
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable{
 
 	private static final long serialVersionUID = 4124610137957134742L;
 	private String name;
@@ -66,4 +69,33 @@ public class User implements Serializable{
 		this.profileImageUrl = profileImageUrl;
 	}
 
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		
+	}
+
+	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+
+		@Override
+		public User createFromParcel(Parcel source) {
+			return new User(source);
+		}
+
+		@Override
+		public User[] newArray(int size) {
+			return new User[size];
+		}
+	};
+	
+	private User( Parcel in ){
+		setId(in.readLong());
+		setName(in.readString());
+		setProfileImageUrl(in.readString());
+		setScreenName(in.readString());
+	}
 }
