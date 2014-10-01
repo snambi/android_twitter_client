@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.content.res.Resources;
 import android.text.format.DateUtils;
+import android.text.format.Time;
 
 public class TwitterTimeUtils {
 
@@ -28,8 +29,15 @@ public class TwitterTimeUtils {
 		String relativeDate = "";
 		try {
 			long dateMillis = sf.parse(rawJsonDate).getTime();
-			relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
-					System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+
+//			relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+//																System.currentTimeMillis(), 
+//																DateUtils.SECOND_IN_MILLIS).toString();
+			
+			relativeDate = getTwitterRelativeTimeSpanString(dateMillis,
+																System.currentTimeMillis(), 
+																DateUtils.SECOND_IN_MILLIS).toString();
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -49,10 +57,12 @@ public class TwitterTimeUtils {
 	 * @param minResolution
 	 * @return
 	 */
-    public static CharSequence getTwitterRelativeTimeSpanString(long time, long now, 
-    													long minResolution) {
-        Resources r = Resources.getSystem();
-       
+    public static CharSequence getTwitterRelativeTimeSpanString(long time, 
+    															long now, 
+    															long minResolution) {
+    	StringBuilder result = new StringBuilder();
+    	
+    	Resources r = Resources.getSystem();
         boolean past = (now >= time);
         long duration = Math.abs(now - time);
 
@@ -61,28 +71,38 @@ public class TwitterTimeUtils {
         if (duration < MINUTE_IN_MILLIS && minResolution < MINUTE_IN_MILLIS) {
             count = duration / SECOND_IN_MILLIS;
             if (past) {
+            	result.append(count);
+            	result.append("s");
             } else {
             }
         } else if (duration < HOUR_IN_MILLIS && minResolution < HOUR_IN_MILLIS) {
             count = duration / MINUTE_IN_MILLIS;
             if (past) {
+            	result.append(count);
+            	result.append("h");
             } else {
             }
         } else if (duration < DAY_IN_MILLIS && minResolution < DAY_IN_MILLIS) {
             count = duration / HOUR_IN_MILLIS;
             if (past) {
+            	result.append(count);
+            	result.append("d");
             } else {
             }
         } else if (duration < WEEK_IN_MILLIS && minResolution < WEEK_IN_MILLIS) {
-           // return getRelativeDayString(r, time, now);
+        		result.append( DateUtils.getRelativeTimeSpanString(time, now, minResolution) );
+        		//return getRelativeDayString(r, time, now);
         } else {
             // We know that we won't be showing the time, so it is safe to pass
             // in a null context.
-            //return formatDateRange(null, time, time, 0);
+            result.append( DateUtils.formatDateRange(null, time, time, 0) );
         }
 
 //        String format = r.getQuantityString(resId, (int) count);
 //        return String.format(format, count);
-        return null;
+        
+        return result.toString();
     }
+    
+
 }
