@@ -79,14 +79,14 @@ public class TwitterTimeUtils {
             count = duration / MINUTE_IN_MILLIS;
             if (past) {
             	result.append(count);
-            	result.append("h");
+            	result.append("m");
             } else {
             }
         } else if (duration < DAY_IN_MILLIS && minResolution < DAY_IN_MILLIS) {
             count = duration / HOUR_IN_MILLIS;
             if (past) {
             	result.append(count);
-            	result.append("d");
+            	result.append("h");
             } else {
             }
         } else if (duration < WEEK_IN_MILLIS && minResolution < WEEK_IN_MILLIS) {
