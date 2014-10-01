@@ -74,6 +74,9 @@ public class TwitterTimeUtils {
             	result.append(count);
             	result.append("s");
             } else {
+            	result.append("-");
+            	result.append(count);
+            	result.append("s");
             }
         } else if (duration < HOUR_IN_MILLIS && minResolution < HOUR_IN_MILLIS) {
             count = duration / MINUTE_IN_MILLIS;
@@ -81,6 +84,9 @@ public class TwitterTimeUtils {
             	result.append(count);
             	result.append("m");
             } else {
+            	result.append("-");
+            	result.append(count);
+            	result.append("m");
             }
         } else if (duration < DAY_IN_MILLIS && minResolution < DAY_IN_MILLIS) {
             count = duration / HOUR_IN_MILLIS;
@@ -88,6 +94,9 @@ public class TwitterTimeUtils {
             	result.append(count);
             	result.append("h");
             } else {
+            	result.append("-");
+            	result.append(count);
+            	result.append("h");
             }
         } else if (duration < WEEK_IN_MILLIS && minResolution < WEEK_IN_MILLIS) {
         		result.append( DateUtils.getRelativeTimeSpanString(time, now, minResolution) );
