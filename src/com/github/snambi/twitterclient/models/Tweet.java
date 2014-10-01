@@ -110,9 +110,7 @@ public class Tweet implements Parcelable{
 		dest.writeString(getCreatedAt() );
 		dest.writeLong( getUid());
 		
-		//users.clear();
-		//users.add( getUser());
-		dest.writeValue( getUser());
+		user.writeToParcel(dest, flags);
 	}
 	
 	public static final Parcelable.Creator<Tweet> CREATOR = new Parcelable.Creator<Tweet>() {
@@ -136,6 +134,6 @@ public class Tweet implements Parcelable{
 		
 		//in.readTypedList(users, User.CREATOR);
 		
-		setUser( (User) in.readValue(null) );
+		setUser( (User) in.readParcelable( User.class.getClassLoader() ) );
 	}
 }
