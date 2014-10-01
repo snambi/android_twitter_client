@@ -131,9 +131,6 @@ public class Tweet implements Parcelable{
 		setBody(in.readString());
 		setCreatedAt(in.readString());
 		setUid(in.readLong());
-		
-		//in.readTypedList(users, User.CREATOR);
-		
-		setUser( (User) in.readParcelable( User.class.getClassLoader() ) );
+		setUser(  User.CREATOR.createFromParcel(in) );
 	}
 }

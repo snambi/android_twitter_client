@@ -150,6 +150,7 @@ public class TimelineActivity extends Activity {
 				Tweet tweet = (Tweet) data.getParcelableExtra("tweet");
 				// insert the tweet to the top of the list
 				tweets.add(0, tweet);
+				aTweets.notifyDataSetChanged();
 			}
 		}
 	}
