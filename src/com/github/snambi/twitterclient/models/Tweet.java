@@ -1,14 +1,10 @@
 package com.github.snambi.twitterclient.models;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.github.snambi.googleimagesearcher.Image;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,6 +15,12 @@ public class Tweet implements Parcelable{
 	private String createdAt;
 	private long uid;
 	private User user;
+	
+	// only used for parcelling a user, so it must be private
+	private ArrayList<User> users = new ArrayList<User>();
+	
+	public Tweet(){
+	}
 	
 	public static Tweet fromJSON( JSONObject jsonObject ){
 		Tweet tweet = new Tweet();
@@ -107,6 +109,9 @@ public class Tweet implements Parcelable{
 		dest.writeString(getBody());
 		dest.writeString(getCreatedAt() );
 		dest.writeLong( getUid());
+		
+		//users.clear();
+		//users.add( getUser());
 		dest.writeValue( getUser());
 	}
 	
@@ -129,5 +134,8 @@ public class Tweet implements Parcelable{
 		setCreatedAt(in.readString());
 		setUid(in.readLong());
 		
+		//in.readTypedList(users, User.CREATOR);
+		
+		setUser( (User) in.readValue(null) );
 	}
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
+import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -70,6 +71,13 @@ public class ComposeActivity extends Activity {
 			@Override
 			public void onSuccess(JSONObject jsonObject) {
 				
+				// on success finish the activity
+				Tweet tweet = Tweet.fromJSON(jsonObject);
+				Intent i = new Intent();
+				i.putExtra("tweet", tweet);
+				
+				setResult(RESULT_OK, i);
+				finish();
 			}
 		});
 	}

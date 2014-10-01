@@ -1,7 +1,5 @@
 package com.github.snambi.twitterclient.models;
 
-import java.io.Serializable;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +13,9 @@ public class User implements Parcelable{
 	private long id;
 	private String screenName;
 	private String profileImageUrl;
+	
+	public User(){
+	}
 	
 	public static User fromJson(JSONObject jsonObject) {
 		
@@ -76,7 +77,10 @@ public class User implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		
+		dest.writeLong(getId());
+		dest.writeString( getName() );
+		dest.writeString(getProfileImageUrl());
+		dest.writeString(getScreenName());
 	}
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {

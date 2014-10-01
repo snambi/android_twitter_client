@@ -79,7 +79,6 @@ public class TimelineActivity extends Activity {
 			Intent intent = new Intent(this, ComposeActivity.class);
 			result=true;
 			startActivityForResult(intent, 700);
-			
 			break;
 		default:
 			break;
@@ -137,5 +136,21 @@ public class TimelineActivity extends Activity {
 				prefs.edit().putLong("id", user.getId()).apply();
 			}
 		});
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		// tweet activity
+		if( requestCode ==700 ){
+			if( resultCode== RESULT_CANCELED ){
+				// no op
+			}
+			if( resultCode == RESULT_OK ){
+				Tweet tweet = (Tweet) data.getParcelableExtra("tweet");
+				// insert the tweet to the top of the list
+				tweets.add(0, tweet);
+			}
+		}
 	}
 }
