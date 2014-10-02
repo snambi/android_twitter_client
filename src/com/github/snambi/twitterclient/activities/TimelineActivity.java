@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.util.Log;
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.adapters.TwitterArrayAdapter;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.clients.TwitterRestClient.TimelineCounter;
+import com.github.snambi.twitterclient.db.TweetDbHelper;
 import com.github.snambi.twitterclient.models.Tweet;
-import com.github.snambi.twitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends Activity {
@@ -38,6 +39,7 @@ public class TimelineActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		
+		
 		lvTweets = (ListView) findViewById(R.id.lvTweets);
 		//aTweets = new ArrayAdapter<Tweet>(this, android.R.layout.simple_list_item_1, tweets);
 		aTweets = new TwitterArrayAdapter(this, tweets);
@@ -47,8 +49,8 @@ public class TimelineActivity extends Activity {
 		
 		populateTimeline();
 		
-		// also get the user's 'screen_name' and 'profile_image_url'
-		saveUserInfoInSharedPrefs();
+//		// also get the user's 'screen_name' and 'profile_image_url'
+//		saveUserInfoInSharedPrefs();
 				
 		// attach the endless scrollview listener to the listview
 		lvTweets.setOnScrollListener( new EndlessScrollListener() {
@@ -58,8 +60,24 @@ public class TimelineActivity extends Activity {
 				populateTimeline();
 			}
 		});
+
+		SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
 		
+		// read screen_name and profile_image_url
+		String screenName = prefs.getString("screen_name", null);
+		getActionBar().setTitle(screenName);
 		
+		prefs.registerOnSharedPreferenceChangeListener(new OnSharedPreferenceChangeListener(){
+
+			@Override
+			public void onSharedPreferenceChanged(
+					SharedPreferences sharedPreferences, String key) {
+				if( key.equals("screen_name") ){
+					String title= sharedPreferences.getString(key, null);
+					getActionBar().setTitle(title);
+				}
+			}
+		});
 	}
 	
 	@Override
@@ -103,40 +121,55 @@ public class TimelineActivity extends Activity {
 				// figure out the sinceId and maxId based on the received the tweets.
 				TimelineCounter counter = TimelineCounter.getInstance();
 				
+				
 				// these values are used for next iteration
 				counter.setSinceIdMaxIdFrom(tweets);
-				
+				TweetDbHelper.saveWhenNotPresent(tweets);
 				aTweets.addAll( tweets );
 			}
 		});		
 	}
 	
-	private void saveUserInfoInSharedPrefs(){
-		
-		twitterClient.saveUserInfo( new JsonHttpResponseHandler(){
-			
-			@Override
-			public void onFailure(Throwable arg0, JSONObject arg1) {
-				// TODO Auto-generated method stub
-				super.onFailure(arg0, arg1);
+	private void saveTweetsInDB( List<Tweet> tweets){
+		if( tweets != null && tweets.size()>0 ){
+			try{
+				ActiveAndroid.beginTransaction();
+				for( Tweet t : tweets ){
+					t.save();
+				}
+				ActiveAndroid.setTransactionSuccessful();
+			}finally{
+				ActiveAndroid.endTransaction();
 			}
-			
-			@Override
-			public void onSuccess(JSONObject jsonObject) {
-				Log.d("debug", "User information " + jsonObject.toString());
-				
-				User user = User.fromJson(jsonObject);
-				
-				// save these info in private shared info
-				SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
-				
-				prefs.edit().putString("user_name", user.getName()).apply();
-				prefs.edit().putString("screen_name", user.getScreenName()).apply();
-				prefs.edit().putString("image_profile_url", user.getProfileImageUrl()).apply();
-				prefs.edit().putLong("id", user.getId()).apply();
-			}
-		});
+		}
 	}
+	
+//	private void saveUserInfoInSharedPrefs(){
+//		
+//		twitterClient.saveUserInfo( new JsonHttpResponseHandler(){
+//			
+//			@Override
+//			public void onFailure(Throwable arg0, JSONObject arg1) {
+//				// TODO Auto-generated method stub
+//				super.onFailure(arg0, arg1);
+//			}
+//			
+//			@Override
+//			public void onSuccess(JSONObject jsonObject) {
+//				Log.d("debug", "User information " + jsonObject.toString());
+//				
+//				User user = User.fromJson(jsonObject);
+//				
+//				// save these info in private shared info
+//				SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
+//				
+//				prefs.edit().putString("user_name", user.getName()).apply();
+//				prefs.edit().putString("screen_name", user.getScreenName()).apply();
+//				prefs.edit().putString("image_profile_url", user.getProfileImageUrl()).apply();
+//				prefs.edit().putLong("id", user.getUid()).apply();
+//			}
+//		});
+//	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

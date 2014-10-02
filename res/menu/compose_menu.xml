@@ -4,7 +4,6 @@
         android:title="Tweet"
         android:icon="@drawable/ic_twitter_compose"
         android:showAsAction="always">
-        
     </item>
 
 </menu>

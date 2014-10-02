@@ -6,15 +6,29 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class User implements Parcelable{
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "users")
+public class User extends Model implements Parcelable{
 
 	private static final long serialVersionUID = 4124610137957134742L;
+	
+	@Column(name="name")
 	private String name;
-	private long id;
+	
+	@Column(name="uid", index=true)
+	private long uid;
+	
+	@Column(name="screen_name", index=true, unique=true)
 	private String screenName;
+	
+	@Column(name="profile_image_url")
 	private String profileImageUrl;
 	
 	public User(){
+		super();
 	}
 	
 	public static User fromJson(JSONObject jsonObject) {
@@ -26,7 +40,7 @@ public class User implements Parcelable{
 			user = new User();
 			
 			user.name = jsonObject.getString("name");
-			user.id = jsonObject.getLong("id");
+			user.uid = jsonObject.getLong("id");
 			user.screenName = jsonObject.getString("screen_name");
 			user.profileImageUrl = jsonObject.getString("profile_image_url");
 			
@@ -46,12 +60,12 @@ public class User implements Parcelable{
 		this.name = name;
 	}
 
-	public long getId() {
-		return id;
+	public long getUid() {
+		return uid;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUid(long id) {
+		this.uid = id;
 	}
 
 	public String getScreenName() {
@@ -77,7 +91,7 @@ public class User implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(getId());
+		dest.writeLong(getUid());
 		dest.writeString( getName() );
 		dest.writeString(getProfileImageUrl());
 		dest.writeString(getScreenName());
@@ -97,7 +111,8 @@ public class User implements Parcelable{
 	};
 	
 	private User( Parcel in ){
-		setId(in.readLong());
+		super();
+		setUid(in.readLong());
 		setName(in.readString());
 		setProfileImageUrl(in.readString());
 		setScreenName(in.readString());

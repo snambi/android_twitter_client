@@ -9,17 +9,34 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Tweet implements Parcelable{
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
+@Table(name = "tweets")
+public class Tweet extends Model implements Parcelable {
+
+	@Column(name="body")
 	private String body;
+	
+	@Column(name="created_at")
 	private String createdAt;
+	
+	@Column(name="uid", index=true, unique=true)
 	private long uid;
+	
+	@Column(name="user", index=true)
 	private User user;
 	
-	// only used for parcelling a user, so it must be private
-	private ArrayList<User> users = new ArrayList<User>();
-	
 	public Tweet(){
+		super();
+	}
+	
+	public Tweet(String body, String created, long id, User usr){
+		this.body = body;
+		this.createdAt = created;
+		this.uid = id;
+		this.user = user;
 	}
 	
 	public static Tweet fromJSON( JSONObject jsonObject ){
@@ -127,7 +144,7 @@ public class Tweet implements Parcelable{
 	};
 	
 	private Tweet( Parcel in ){
-		
+		super();
 		setBody(in.readString());
 		setCreatedAt(in.readString());
 		setUid(in.readLong());

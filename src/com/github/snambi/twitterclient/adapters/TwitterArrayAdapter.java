@@ -45,13 +45,12 @@ public class TwitterArrayAdapter extends ArrayAdapter<Tweet>{
 			holder = (ViewHolder) v.getTag();
 		}
 		
-		
 		holder.imgProfileImage.setImageResource(android.R.color.transparent);
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), holder.imgProfileImage);
 		
 		holder.tvBody.setText( tweet.getBody());
-		holder.tvScreenName.setText( tweet.getUser().getScreenName());
+		holder.tvScreenName.setText( "@"+ tweet.getUser().getScreenName());
 		String relativeTime = TwitterTimeUtils.getRelativeTimeAgo( tweet.getCreatedAt());
 		holder.tvCreatedTime.setText(relativeTime);
 		
