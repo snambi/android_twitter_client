@@ -1,9 +1,7 @@
 package com.github.snambi.twitterclient.activities;
 
-import java.util.List;
-
-import org.json.JSONArray;
-
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,15 +11,14 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.activeandroid.util.Log;
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
-import com.github.snambi.twitterclient.clients.TwitterRestClient.TweetsCounter;
-import com.github.snambi.twitterclient.db.TweetDbHelper;
+import com.github.snambi.twitterclient.fragemets.HomeTimelineFragment;
+import com.github.snambi.twitterclient.fragemets.MentionsTimelineFragment;
 import com.github.snambi.twitterclient.fragemets.TwitterListFragment;
+import com.github.snambi.twitterclient.listeners.FragmentTabListener;
 import com.github.snambi.twitterclient.models.Tweet;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends FragmentActivity {
 
@@ -33,11 +30,10 @@ public class TimelineActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		
+		setupTabs();
+		
 		twitterClient = TwitterApplication.getRestClient();
-		listFragment = (TwitterListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentListTweets);
-				
 						
-
 		SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
 		
 		// read screen_name and profile_image_url
@@ -57,6 +53,35 @@ public class TimelineActivity extends FragmentActivity {
 		});
 	}
 	
+	private void setupTabs() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(true);
+
+		Tab tab1 = actionBar
+			.newTab()
+			.setText("Home")
+			.setIcon(R.drawable.ic_home)
+			.setTag("HomeTimelineFragment")
+			.setTabListener(
+				new FragmentTabListener<HomeTimelineFragment>(R.id.flContainer, this, "first",
+								HomeTimelineFragment.class));
+
+		actionBar.addTab(tab1);
+		actionBar.selectTab(tab1);
+
+		Tab tab2 = actionBar
+			.newTab()
+			.setText("Mentions")
+			.setIcon(R.drawable.ic_mentions)
+			.setTag("MentionsTimelineFragment")
+			.setTabListener(
+			    new FragmentTabListener<MentionsTimelineFragment>(R.id.flContainer, this, "second",
+			    		MentionsTimelineFragment.class));
+
+		actionBar.addTab(tab2);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.compose_menu, menu);
