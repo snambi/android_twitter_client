@@ -1,65 +1,51 @@
 package com.github.snambi.twitterclient.activities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.util.Log;
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
-import com.github.snambi.twitterclient.adapters.TwitterArrayAdapter;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.clients.TwitterRestClient.TimelineCounter;
 import com.github.snambi.twitterclient.db.TweetDbHelper;
+import com.github.snambi.twitterclient.fragemets.TwitterListFragment;
 import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class TimelineActivity extends Activity {
+public class TimelineActivity extends FragmentActivity {
 
 	TwitterRestClient twitterClient;
-	ListView lvTweets;
-	List<Tweet> tweets = new ArrayList<Tweet>();
-	//ArrayAdapter<Tweet> aTweets = null;
-	TwitterArrayAdapter aTweets=null;
+	TwitterListFragment listFragment = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		
-		
-		lvTweets = (ListView) findViewById(R.id.lvTweets);
-		//aTweets = new ArrayAdapter<Tweet>(this, android.R.layout.simple_list_item_1, tweets);
-		aTweets = new TwitterArrayAdapter(this, tweets);
-		lvTweets.setAdapter(aTweets);
-		
 		twitterClient = TwitterApplication.getRestClient();
-		
-		populateTimeline();
-		
-//		// also get the user's 'screen_name' and 'profile_image_url'
-//		saveUserInfoInSharedPrefs();
+		listFragment = (TwitterListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentListTweets);
 				
+		//populateTimeline();
+						
 		// attach the endless scrollview listener to the listview
-		lvTweets.setOnScrollListener( new EndlessScrollListener() {
-			
-			@Override
-			public void onLoadMore(int page, int totalItemsCount) {
-				populateTimeline();
-			}
-		});
+//		lvTweets.setOnScrollListener( new EndlessScrollListener() {
+//			
+//			@Override
+//			public void onLoadMore(int page, int totalItemsCount) {
+//				populateTimeline();
+//			}
+//		});
 
 		SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
 		
@@ -125,51 +111,12 @@ public class TimelineActivity extends Activity {
 				// these values are used for next iteration
 				counter.setSinceIdMaxIdFrom(tweets);
 				TweetDbHelper.saveWhenNotPresent(tweets);
-				aTweets.addAll( tweets );
+				//aTweets.addAll( tweets );
+				listFragment.addTweets(tweets);
 			}
 		});		
 	}
-	
-	private void saveTweetsInDB( List<Tweet> tweets){
-		if( tweets != null && tweets.size()>0 ){
-			try{
-				ActiveAndroid.beginTransaction();
-				for( Tweet t : tweets ){
-					t.save();
-				}
-				ActiveAndroid.setTransactionSuccessful();
-			}finally{
-				ActiveAndroid.endTransaction();
-			}
-		}
-	}
-	
-//	private void saveUserInfoInSharedPrefs(){
-//		
-//		twitterClient.saveUserInfo( new JsonHttpResponseHandler(){
-//			
-//			@Override
-//			public void onFailure(Throwable arg0, JSONObject arg1) {
-//				// TODO Auto-generated method stub
-//				super.onFailure(arg0, arg1);
-//			}
-//			
-//			@Override
-//			public void onSuccess(JSONObject jsonObject) {
-//				Log.d("debug", "User information " + jsonObject.toString());
-//				
-//				User user = User.fromJson(jsonObject);
-//				
-//				// save these info in private shared info
-//				SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
-//				
-//				prefs.edit().putString("user_name", user.getName()).apply();
-//				prefs.edit().putString("screen_name", user.getScreenName()).apply();
-//				prefs.edit().putString("image_profile_url", user.getProfileImageUrl()).apply();
-//				prefs.edit().putLong("id", user.getUid()).apply();
-//			}
-//		});
-//	}
+		
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -182,8 +129,9 @@ public class TimelineActivity extends Activity {
 			if( resultCode == RESULT_OK ){
 				Tweet tweet = (Tweet) data.getParcelableExtra("tweet");
 				// insert the tweet to the top of the list
-				tweets.add(0, tweet);
-				aTweets.notifyDataSetChanged();
+//				tweets.add(0, tweet);
+//				aTweets.notifyDataSetChanged();
+				listFragment.addTweetAtPosition(tweet, 0);
 			}
 		}
 	}
