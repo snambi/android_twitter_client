@@ -36,16 +36,7 @@ public class TimelineActivity extends FragmentActivity {
 		twitterClient = TwitterApplication.getRestClient();
 		listFragment = (TwitterListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentListTweets);
 				
-		//populateTimeline();
 						
-		// attach the endless scrollview listener to the listview
-//		lvTweets.setOnScrollListener( new EndlessScrollListener() {
-//			
-//			@Override
-//			public void onLoadMore(int page, int totalItemsCount) {
-//				populateTimeline();
-//			}
-//		});
 
 		SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
 		
@@ -89,34 +80,6 @@ public class TimelineActivity extends FragmentActivity {
 		}
 		return result;
 	}
-
-	private void populateTimeline() {
-		twitterClient.getHomeTimeLine( new JsonHttpResponseHandler(){
-			
-			@Override
-			public void onFailure(Throwable t, String s) {
-				Log.d( "debug", s, t);
-			}
-			
-			@Override
-			public void onSuccess(JSONArray jsonArray) {
-				Log.d("debug", jsonArray.toString() );
-				
-				List<Tweet> tweets = Tweet.fromJSONArray(jsonArray);
-				
-				// figure out the sinceId and maxId based on the received the tweets.
-				TimelineCounter counter = TimelineCounter.getInstance();
-				
-				
-				// these values are used for next iteration
-				counter.setSinceIdMaxIdFrom(tweets);
-				TweetDbHelper.saveWhenNotPresent(tweets);
-				//aTweets.addAll( tweets );
-				listFragment.addTweets(tweets);
-			}
-		});		
-	}
-		
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
