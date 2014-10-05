@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.activeandroid.util.Log;
 import com.github.snambi.twitterclient.activities.EndlessScrollListener;
 import com.github.snambi.twitterclient.clients.TwitterRestClient.TweetsCounter;
@@ -11,15 +16,10 @@ import com.github.snambi.twitterclient.db.TweetDbHelper;
 import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+public class MentionsTimelineFragment extends TwitterListFragment  {
+	
+	TweetsCounter counter = new TweetsCounter();
 
-public class HomeTimelineFragment extends TwitterListFragment {
-	
-	protected TweetsCounter counter =  new TweetsCounter();
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,9 +44,7 @@ public class HomeTimelineFragment extends TwitterListFragment {
 	}
 	
 	private void populateTimeline() {
-		twitterClient.getHomeTimeLine(  counter,
-										new JsonHttpResponseHandler(){
-			
+		twitterClient.getMentionsTimeline( counter, new JsonHttpResponseHandler(){
 			
 			@Override
 			public void onFailure(Throwable t, String s) {
@@ -58,7 +56,7 @@ public class HomeTimelineFragment extends TwitterListFragment {
 				Log.d("debug", jsonArray.toString() );
 				
 				List<Tweet> tweets = Tweet.fromJSONArray(jsonArray);
-				
+								
 				// these values are used for next iteration
 				counter.setSinceIdMaxIdFrom(tweets);
 				TweetDbHelper.saveWhenNotPresent(tweets);

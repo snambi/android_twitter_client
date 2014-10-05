@@ -10,6 +10,7 @@ import android.content.Context;
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -35,15 +36,19 @@ public class TwitterRestClient extends OAuthBaseClient {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 	
+	public void getHomeTimeLine( TweetsCounter counter, AsyncHttpResponseHandler responseHandler ){
+		getTweetsFromApi("statuses/home_timeline.json", counter, responseHandler);
+	}
 	
-	public void getHomeTimeLine( AsyncHttpResponseHandler responseHandler ){
-		
-		String apiUrl = getApiUrl("statuses/home_timeline.json");
+	public void getMentionsTimeline( TweetsCounter counter, AsyncHttpResponseHandler responseHandler) {
+		getTweetsFromApi("statuses/mentions_timeline.json", counter, responseHandler);
+	}
+	
+	public void getTweetsFromApi( String api, TweetsCounter counter, AsyncHttpResponseHandler responseHandler ){
+		//String apiUrl = getApiUrl("statuses/home_timeline.json");
+		String apiUrl = getApiUrl(api);
 		RequestParams params = new RequestParams();
-		
-		// get the sinceId and maxId
-		TimelineCounter counter = TimelineCounter.getInstance();
-		
+				
 		boolean m = false;
 		boolean s = false;
 		
@@ -61,8 +66,8 @@ public class TwitterRestClient extends OAuthBaseClient {
 		}else{
 			client.get(apiUrl, params, responseHandler);
 		}
-		
 	}
+	
 	
 	
 	public void saveUserInfo( AsyncHttpResponseHandler responseHandler){
@@ -96,48 +101,34 @@ public class TwitterRestClient extends OAuthBaseClient {
 	 * <code>TimelineCounter</code> keeps track of which tweets are downloaded and which need to be fetched.
 	 * this is a singleton.
 	 */
-	public static  class TimelineCounter{
+	public static  class TweetsCounter{
 		
 		// max value of the received tweets
 		private long sinceId=0l;
 		// min values of the received tweets 
 		private long maxId=0l;
-		
-		private static TimelineCounter timelineCounter;
-		
-		private TimelineCounter(){
+				
+		public TweetsCounter(){
 		}
 		
-		public static TimelineCounter getInstance(){
-			if( timelineCounter == null ){
-				timelineCounter = new TimelineCounter();
-			}
-			return timelineCounter;
-		}
-
 		public long getSinceId() {
 			return sinceId;
 		}
 		public String getSinceIdStr(){
 			return ""+ sinceId;
 		}
-
 		public void setSinceId(long sinceId) {
 			this.sinceId = sinceId;
 		}
-
 		public String getMaxIdStr(){
 			return ""+ maxId;
 		}
-		
 		public long getMaxId() {
 			return maxId;
 		}
-
 		public void setMaxId(long maxId) {
 			this.maxId = maxId;
 		}
-		
 		public void setSinceIdMaxIdFrom( List<Tweet> tweets){
 			if( tweets == null || tweets.size() == 0){
 				return ;

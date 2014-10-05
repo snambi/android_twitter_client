@@ -17,7 +17,7 @@ import com.activeandroid.util.Log;
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
-import com.github.snambi.twitterclient.clients.TwitterRestClient.TimelineCounter;
+import com.github.snambi.twitterclient.clients.TwitterRestClient.TweetsCounter;
 import com.github.snambi.twitterclient.db.TweetDbHelper;
 import com.github.snambi.twitterclient.fragemets.TwitterListFragment;
 import com.github.snambi.twitterclient.models.Tweet;
