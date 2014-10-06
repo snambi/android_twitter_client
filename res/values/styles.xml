@@ -25,6 +25,7 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
     <style name="TwitterTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:background">#55ACEE</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
     

@@ -27,6 +27,15 @@ public class User extends Model implements Parcelable{
 	@Column(name="profile_image_url")
 	private String profileImageUrl;
 	
+	@Column(name="description")
+	private String descrption;
+	
+	@Column(name="following")
+	private int following;
+	
+	@Column(name="followers")
+	private int followers;
+	
 	public User(){
 		super();
 	}
@@ -43,6 +52,9 @@ public class User extends Model implements Parcelable{
 			user.uid = jsonObject.getLong("id");
 			user.screenName = jsonObject.getString("screen_name");
 			user.profileImageUrl = jsonObject.getString("profile_image_url");
+			user.descrption = jsonObject.getString("description");
+			user.followers =jsonObject.getInt("followers_count");
+			user.following = jsonObject.getInt("friends_count");
 			
 			
 		} catch (JSONException e) {
@@ -83,7 +95,26 @@ public class User extends Model implements Parcelable{
 	public void setProfileImageUrl(String profileImageUrl) {
 		this.profileImageUrl = profileImageUrl;
 	}
-
+	
+	public String getTag(){
+		return descrption;
+	}
+	public void setTag( String tag){
+		descrption = tag;
+	}
+	public int getFollowing(){
+		return following;
+	}
+	public void setFollowing( int following ){
+		this.following = following;
+	}
+	public int getFollowers(){
+		return followers;
+	}
+	public void setFollowers( int followers ){
+		this.followers = followers;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -95,6 +126,9 @@ public class User extends Model implements Parcelable{
 		dest.writeString( getName() );
 		dest.writeString(getProfileImageUrl());
 		dest.writeString(getScreenName());
+		dest.writeString(getTag());
+		dest.writeInt( getFollowing());
+		dest.writeInt( getFollowers() );
 	}
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
@@ -116,5 +150,8 @@ public class User extends Model implements Parcelable{
 		setName(in.readString());
 		setProfileImageUrl(in.readString());
 		setScreenName(in.readString());
+		setTag(in.readString());
+		setFollowing( in.readInt() );
+		setFollowers( in.readInt() );
 	}
 }
