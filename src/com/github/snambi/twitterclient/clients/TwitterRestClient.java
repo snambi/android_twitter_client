@@ -10,7 +10,6 @@ import android.content.Context;
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -36,6 +35,10 @@ public class TwitterRestClient extends OAuthBaseClient {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 	
+	public void getUserTimeline(TweetsCounter counter, AsyncHttpResponseHandler responseHandler){
+		getTweetsFromApi("statuses/user_timeline.json", counter, responseHandler);
+	}
+	
 	public void getHomeTimeLine( TweetsCounter counter, AsyncHttpResponseHandler responseHandler ){
 		getTweetsFromApi("statuses/home_timeline.json", counter, responseHandler);
 	}
@@ -52,10 +55,6 @@ public class TwitterRestClient extends OAuthBaseClient {
 		boolean m = false;
 		boolean s = false;
 		
-//		if( counter.getSinceId() > 0){
-//			params.put("since_id", counter.getSinceIdStr() );
-//			s=true;
-//		}
 		if( counter.getMaxId() > 0){
 			params.put("max_id", counter.getMaxIdStr() );
 			m=true;
@@ -69,12 +68,11 @@ public class TwitterRestClient extends OAuthBaseClient {
 	}
 	
 	
-	
-	public void saveUserInfo( AsyncHttpResponseHandler responseHandler){
+	public void getMyInfo( AsyncHttpResponseHandler responseHandler){
 		String api_url = getApiUrl("account/verify_credentials.json");
-		
 		client.get(api_url, responseHandler);
 	}
+	
 	
 	public void createTweet( String tweet, AsyncHttpResponseHandler responseHandler ){
 		String api_url = getApiUrl("statuses/update.json");
@@ -99,7 +97,6 @@ public class TwitterRestClient extends OAuthBaseClient {
 	
 	/**
 	 * <code>TimelineCounter</code> keeps track of which tweets are downloaded and which need to be fetched.
-	 * this is a singleton.
 	 */
 	public static  class TweetsCounter{
 		
@@ -110,7 +107,6 @@ public class TwitterRestClient extends OAuthBaseClient {
 				
 		public TweetsCounter(){
 		}
-		
 		public long getSinceId() {
 			return sinceId;
 		}
@@ -139,7 +135,6 @@ public class TwitterRestClient extends OAuthBaseClient {
 			long low=0;
 			
 			for( Tweet t : tweets ){
-				
 				// special case, if "low" is 0 , then start from the first value
 				if( low == 0){
 					low = t.getUid();
@@ -157,7 +152,6 @@ public class TwitterRestClient extends OAuthBaseClient {
 			}else if( getSinceId() == 0){
 				// handle special case
 				setSinceId(high);
-				
 			}
 			if( low < getMaxId() ){
 				setMaxId(low);
@@ -165,6 +159,5 @@ public class TwitterRestClient extends OAuthBaseClient {
 				setMaxId(low);
 			}
 		}
-		
 	}
 }

@@ -17,25 +17,20 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 
 	// This version defaults to replacing the entire activity content area
 	// new FragmentTabListener<SomeFragment>(this, "first", SomeFragment.class))
-	public FragmentTabListener(FragmentActivity activity, String tag,
-			Class<T> clz) {
-		mActivity = activity;
-		mTag = tag;
-		mClass = clz;
-		mfragmentContainerId = android.R.id.content;
-		mfragmentArgs = new Bundle();
+	public FragmentTabListener(FragmentActivity activity, 
+								String tag,
+								Class<T> clz) {
+		this(android.R.id.content, activity, tag, clz, new Bundle());
 	}
 
 	// This version supports specifying the container to replace with fragment content
 	// new FragmentTabListener<SomeFragment>(R.id.flContent, this, "first",
 	// SomeFragment.class))
 	public FragmentTabListener(int fragmentContainerId,
-			FragmentActivity activity, String tag, Class<T> clz) {
-		mActivity = activity;
-		mTag = tag;
-		mClass = clz;
-		mfragmentContainerId = fragmentContainerId;
-		mfragmentArgs = new Bundle();
+								FragmentActivity activity, 
+								String tag, 
+								Class<T> clz) {
+		this(fragmentContainerId, activity, tag, clz, new Bundle());
 	}
 
 	// This version supports specifying the container to replace with fragment
@@ -43,7 +38,10 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 	// new FragmentTabListener<SomeFragment>(R.id.flContent, this, "first",
 	// SomeFragment.class, myFragmentArgs))
 	public FragmentTabListener(int fragmentContainerId,
-			FragmentActivity activity, String tag, Class<T> clz, Bundle args) {
+								FragmentActivity activity, 
+								String tag, 
+								Class<T> clz, 
+								Bundle args) {
 		mActivity = activity;
 		mTag = tag;
 		mClass = clz;
@@ -54,14 +52,18 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 	/* The following are each of the ActionBar.TabListener callbacks */
 
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		
 		FragmentTransaction sft = mActivity.getSupportFragmentManager()
-				.beginTransaction();
+				                           .beginTransaction();
+		
 		// Check if the fragment is already initialized
 		if (mFragment == null) {
+		
 			// If not, instantiate and add it to the activity
 			mFragment = Fragment.instantiate(mActivity, mClass.getName(),
 					mfragmentArgs);
 			sft.add(mfragmentContainerId, mFragment, mTag);
+	
 		} else {
 			// If it exists, simply attach it in order to show it
 			sft.attach(mFragment);

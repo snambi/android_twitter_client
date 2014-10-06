@@ -50,7 +50,7 @@ public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
 
 	private void saveUserInfoInSharedPrefs(){
 		
-		twitterClient.saveUserInfo( new JsonHttpResponseHandler(){
+		twitterClient.getMyInfo( new JsonHttpResponseHandler(){
 			
 			@Override
 			public void onFailure(Throwable arg0, JSONObject arg1) {
