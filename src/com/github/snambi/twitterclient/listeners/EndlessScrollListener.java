@@ -1,4 +1,4 @@
-package com.github.snambi.twitterclient.activities;
+package com.github.snambi.twitterclient.listeners;
 
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;

@@ -3,13 +3,16 @@ package com.github.snambi.twitterclient.activities;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
+import com.github.snambi.twitterclient.fragemets.ProfileHeaderFragment;
 import com.github.snambi.twitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,15 +33,20 @@ public class ProfileActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 	
-		// get a reference to the UI elements
-		tvProfileUserName = (TextView) findViewById(R.id.tvProfileUserName);
-		tvProfileTagLine = (TextView) findViewById(R.id.tvProfileTagLine);
-		ivProfileUserImage = (ImageView) findViewById(R.id.ivProfileUserImage);
-		tvProfileFollowers = (TextView) findViewById(R.id.tvProfileFollowers);
-		tvProfileFollowing = (TextView) findViewById(R.id.tvProfileFollowing);
+//		// get a reference to the UI elements
+//		tvProfileUserName = (TextView) findViewById(R.id.tvProfileUserName);
+//		tvProfileTagLine = (TextView) findViewById(R.id.tvProfileTagLine);
+//		ivProfileUserImage = (ImageView) findViewById(R.id.ivProfileUserImage);
+//		tvProfileFollowers = (TextView) findViewById(R.id.tvProfileFollowers);
+//		tvProfileFollowing = (TextView) findViewById(R.id.tvProfileFollowing);
 		
 		restClient = TwitterApplication.getRestClient();
-		loadDetails();
+		
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.flProfileHeader, new ProfileHeaderFragment( restClient ) , "profile-fragment");
+		ft.commit();
+		
+		//loadDetails();
 	}
 
 	private void loadDetails() {

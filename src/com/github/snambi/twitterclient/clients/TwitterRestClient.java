@@ -1,5 +1,6 @@
 package com.github.snambi.twitterclient.clients;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.scribe.builder.api.Api;
@@ -24,7 +25,10 @@ import com.loopj.android.http.RequestParams;
  * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
  * 
  */
-public class TwitterRestClient extends OAuthBaseClient {
+public class TwitterRestClient extends OAuthBaseClient implements Serializable {
+	
+	private static final long serialVersionUID = 1551228791225134824L;
+
 	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change this
 	public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
 	public static final String REST_CONSUMER_KEY = "308Y6AhszvPZK1Tg9l7RDXf9Z";       // Change this

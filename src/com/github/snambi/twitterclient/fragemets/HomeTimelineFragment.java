@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.json.JSONArray;
 
-import com.activeandroid.util.Log;
-import com.github.snambi.twitterclient.activities.EndlessScrollListener;
-import com.github.snambi.twitterclient.clients.TwitterRestClient.TweetsCounter;
-import com.github.snambi.twitterclient.db.TweetDbHelper;
-import com.github.snambi.twitterclient.models.Tweet;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.activeandroid.util.Log;
+import com.github.snambi.twitterclient.clients.TwitterRestClient.TweetsCounter;
+import com.github.snambi.twitterclient.db.TweetDbHelper;
+import com.github.snambi.twitterclient.listeners.EndlessScrollListener;
+import com.github.snambi.twitterclient.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class HomeTimelineFragment extends TwitterListFragment {
 	
@@ -44,7 +44,7 @@ public class HomeTimelineFragment extends TwitterListFragment {
 	}
 	
 	private void populateTimeline() {
-		twitterClient.getHomeTimeLine(  counter,
+		client.getHomeTimeLine(  counter,
 										new JsonHttpResponseHandler(){
 			
 			

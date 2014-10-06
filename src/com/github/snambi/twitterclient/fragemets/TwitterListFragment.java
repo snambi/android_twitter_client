@@ -18,18 +18,30 @@ import com.github.snambi.twitterclient.models.Tweet;
 
 public class TwitterListFragment extends Fragment {
 	
-	protected TwitterRestClient twitterClient;
+	protected TwitterRestClient client;
 	
 	protected ListView lvTweets;
 	protected List<Tweet> tweets = new ArrayList<Tweet>();
 	protected TwitterArrayAdapter aTweets=null;
 
+	public TwitterListFragment( ){
+	}
+	
+	public TwitterListFragment( TwitterRestClient client){
+		this.client = client;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		twitterClient = TwitterApplication.getRestClient();
+		client = TwitterApplication.getRestClient();
+		//TwitterRestClient c = (TwitterRestClient) savedInstanceState.getSerializable("client");
+		//String test = savedInstanceState.getString("test");
+		
+		//TwitterRestClient c  = (TwitterRestClient) getArguments().getSerializable("client");
+		//String test = getArguments().getString("test");
+
 		aTweets = new TwitterArrayAdapter(getActivity(), tweets);
 	}
 
@@ -44,6 +56,13 @@ public class TwitterListFragment extends Fragment {
 		return view;
 	}
 		
+	public TwitterRestClient getClient() {
+		return client;
+	}
+	public void setClient(TwitterRestClient client) {
+		this.client = client;
+	}
+
 	// provides a way to add tweets from the activity
 	public void addTweets( List<Tweet> tweets){
 		aTweets.addAll(tweets);

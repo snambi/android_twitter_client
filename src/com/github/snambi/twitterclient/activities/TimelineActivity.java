@@ -24,16 +24,21 @@ public class TimelineActivity extends FragmentActivity {
 
 	TwitterRestClient twitterClient;
 	TwitterListFragment listFragment = null;
+	HomeTimelineFragment homeFragment=null;
+	MentionsTimelineFragment mentionsFragment=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		
-		setupTabs();
-		
 		twitterClient = TwitterApplication.getRestClient();
-						
+		
+		setupTabs( twitterClient );
+		
+		homeFragment = (HomeTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.flContainer);
+		mentionsFragment = (MentionsTimelineFragment) getSupportFragmentManager().findFragmentByTag("MentionsTimelineFragment");
+		
 		SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
 		
 		// read screen_name and profile_image_url
@@ -53,10 +58,14 @@ public class TimelineActivity extends FragmentActivity {
 		});
 	}
 	
-	private void setupTabs() {
+	private void setupTabs(TwitterRestClient twitterClient) {
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
+		
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("client", twitterClient);
+		bundle.putString("test", "test-string");
 
 		Tab tab1 = actionBar
 			.newTab()
@@ -65,7 +74,7 @@ public class TimelineActivity extends FragmentActivity {
 			.setTag("HomeTimelineFragment")
 			.setTabListener(
 				new FragmentTabListener<HomeTimelineFragment>(R.id.flContainer, this, "first",
-								HomeTimelineFragment.class));
+								HomeTimelineFragment.class, bundle));
 
 		actionBar.addTab(tab1);
 		actionBar.selectTab(tab1);
@@ -77,7 +86,7 @@ public class TimelineActivity extends FragmentActivity {
 			.setTag("MentionsTimelineFragment")
 			.setTabListener(
 			    new FragmentTabListener<MentionsTimelineFragment>(R.id.flContainer, this, "second",
-			    		MentionsTimelineFragment.class));
+			    		MentionsTimelineFragment.class, bundle ));
 
 		actionBar.addTab(tab2);
 	}
