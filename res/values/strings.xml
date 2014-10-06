@@ -15,5 +15,6 @@
     <string name="text_cancel_btn">Cancel</string>
     <string name="screen_name_text">\@name</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="string_user_image">user\'s profile image</string>
 
 </resources>
