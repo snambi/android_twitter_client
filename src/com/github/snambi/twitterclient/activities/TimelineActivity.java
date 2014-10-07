@@ -16,14 +16,12 @@ import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.fragemets.HomeTimelineFragment;
 import com.github.snambi.twitterclient.fragemets.MentionsTimelineFragment;
-import com.github.snambi.twitterclient.fragemets.TwitterListFragment;
 import com.github.snambi.twitterclient.listeners.FragmentTabListener;
 import com.github.snambi.twitterclient.models.Tweet;
 
 public class TimelineActivity extends FragmentActivity {
 
-	TwitterRestClient twitterClient;
-	TwitterListFragment listFragment = null;
+	TwitterRestClient twitterClient;	
 	HomeTimelineFragment homeFragment=null;
 	MentionsTimelineFragment mentionsFragment=null;
 	
@@ -35,10 +33,7 @@ public class TimelineActivity extends FragmentActivity {
 		twitterClient = TwitterApplication.getRestClient();
 		
 		setupTabs( twitterClient );
-		
-		homeFragment = (HomeTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.flContainer);
-		mentionsFragment = (MentionsTimelineFragment) getSupportFragmentManager().findFragmentByTag("MentionsTimelineFragment");
-		
+				
 		SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
 		
 		// read screen_name and profile_image_url
@@ -131,9 +126,10 @@ public class TimelineActivity extends FragmentActivity {
 			if( resultCode == RESULT_OK ){
 				Tweet tweet = (Tweet) data.getParcelableExtra("tweet");
 				// insert the tweet to the top of the list
-//				tweets.add(0, tweet);
-//				aTweets.notifyDataSetChanged();
-				listFragment.addTweetAtPosition(tweet, 0);
+				if( homeFragment == null ){
+					homeFragment = (HomeTimelineFragment) getSupportFragmentManager().findFragmentByTag("first");
+				}
+				homeFragment.addTweetAtPosition(tweet, 0);
 			}
 		}
 	}
