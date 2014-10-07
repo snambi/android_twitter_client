@@ -32,14 +32,7 @@ public class ProfileActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
-	
-//		// get a reference to the UI elements
-//		tvProfileUserName = (TextView) findViewById(R.id.tvProfileUserName);
-//		tvProfileTagLine = (TextView) findViewById(R.id.tvProfileTagLine);
-//		ivProfileUserImage = (ImageView) findViewById(R.id.ivProfileUserImage);
-//		tvProfileFollowers = (TextView) findViewById(R.id.tvProfileFollowers);
-//		tvProfileFollowing = (TextView) findViewById(R.id.tvProfileFollowing);
-		
+			
 		restClient = TwitterApplication.getRestClient();
 		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
