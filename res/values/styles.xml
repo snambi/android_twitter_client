@@ -5,28 +5,30 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:actionBarStyle">@style/TwitterActionBarBackground</item>
+        <item name="android:actionBarStyle">@style/TwitterActionBarStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/TwitterActionBarTabText</item>
     </style>
     
     <!--  Action Bar Backgroud color -->
-    <style name="TwitterActionBarBackground" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <style name="TwitterActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/TwitterTheme.ActionBar.TitleTextStyle</item> 
         <item name="android:background">#55ACEE</item>
-        <item name="android:titleTextStyle">@style/TwitterTheme.ActionBar.TitleTextStyle</item>
+    </style>
+    
+    <!--  Action Bar title text color -->
+    <style name="TwitterTheme.ActionBar.TitleTextStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:textColor">#FFFFFF</item>
     </style>
-    <style name="TwitterTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:background">#55ACEE</item>
-        <item name="android:textColor">#FFFFFF</item>
+    
+    
+    <!--  Action Bar Tab Text color -->
+    <style name="TwitterActionBarTabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
+        <item name="android:textColor">#55ACEE</item>
     </style>
     
 </resources>
