@@ -8,6 +8,7 @@ import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.fragemets.ProfileHeaderFragment;
+import com.github.snambi.twitterclient.fragemets.UserTimelineFragment;
 
 public class ProfileActivity extends FragmentActivity {
 	
@@ -30,5 +31,9 @@ public class ProfileActivity extends FragmentActivity {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.flProfileHeader, new ProfileHeaderFragment( restClient, screenName ) , "profile-fragment");
 		ft.commit();
+		
+		FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+		ft2.replace(R.id.flProfileTweets, new UserTimelineFragment(), "tweets-fragment");
+		ft2.commit();
 	}
 }

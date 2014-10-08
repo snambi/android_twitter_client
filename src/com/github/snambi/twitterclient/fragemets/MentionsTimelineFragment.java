@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.activeandroid.util.Log;
-import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.clients.TwitterRestClient.TweetsCounter;
 import com.github.snambi.twitterclient.db.TweetDbHelper;
 import com.github.snambi.twitterclient.listeners.EndlessScrollListener;

@@ -83,7 +83,14 @@
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_profile_header" />
      -->
+    <FrameLayout android:id="@+id/flProfileTweets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/flProfileHeader"
+        android:layout_alignParentLeft="true">
+    </FrameLayout>
     
+    <!-- 
     <fragment
         android:id="@+id/fragmentProfileTimelineTweets"
         android:name="com.github.snambi.twitterclient.fragemets.UserTimelineFragment"
@@ -91,5 +98,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/flProfileHeader"
         tools:layout="@layout/fragment_twitter_list" />
+	 -->
 
 </RelativeLayout>

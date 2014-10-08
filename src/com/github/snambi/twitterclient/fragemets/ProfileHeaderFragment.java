@@ -94,5 +94,4 @@ public class ProfileHeaderFragment extends Fragment{
 			}
 		});
 	}
-
 }

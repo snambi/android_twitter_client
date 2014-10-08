@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class UserTimelineFragment extends TwitterListFragment {
 
 	protected TweetsCounter counter = new TweetsCounter();
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
