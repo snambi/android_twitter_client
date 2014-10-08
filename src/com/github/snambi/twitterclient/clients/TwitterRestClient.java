@@ -55,28 +55,36 @@ public class TwitterRestClient extends OAuthBaseClient implements Serializable {
 	public void getTweetsFromApi( String api, TweetsCounter counter, String screenName, AsyncHttpResponseHandler responseHandler ){
 		//String apiUrl = getApiUrl("statuses/home_timeline.json");
 		String apiUrl = getApiUrl(api);
-		RequestParams params = new RequestParams();
-				
-		boolean m = false;
-		boolean s = false;
-		boolean o = false;
-		
+		RequestParams params = null;
+						
 		if( counter.getMaxId() > 0){
+			
+			if( params == null ){
+				params = new RequestParams();
+			}
 			params.put("max_id", counter.getMaxIdStr() );
-			m=true;
 		}
 		if( screenName != null && !screenName.trim().equals("")){
+			if( params == null ){
+				params = new RequestParams();
+			}
 			params.put("screen_name", screenName);
-			o =true;
 		}
 		
-		if( (s==false && m==false) && o==false){
+//		if( (s==false && m==false) && o==false){
+//			client.get(apiUrl, null, responseHandler);
+//		}else if( ( s==false && m==false ) && o == true){
+//			client.get(apiUrl, params, responseHandler);
+//		}else{
+//			client.get(apiUrl, params, responseHandler);
+//		}
+		
+		if( params == null ){
 			client.get(apiUrl, null, responseHandler);
-		}else if( ( s==false && m==false ) && o == true){
-			client.get(apiUrl, params, responseHandler);
 		}else{
 			client.get(apiUrl, params, responseHandler);
 		}
+		
 	}
 	
 	
