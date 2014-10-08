@@ -20,6 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class ProfileHeaderFragment extends Fragment{
 	
 	protected TwitterRestClient restClient;
+	protected String screenName=null;
 	
 	protected TextView tvProfileUserName;
 	protected TextView tvProfileTagLine;
@@ -29,8 +30,9 @@ public class ProfileHeaderFragment extends Fragment{
 	
 	public ProfileHeaderFragment(){
 	}
-	public ProfileHeaderFragment( TwitterRestClient client){
+	public ProfileHeaderFragment( TwitterRestClient client, String screenName){
 		restClient = client;
+		this.screenName = screenName;
 	}
 	
 	public TwitterRestClient getRestClient() {

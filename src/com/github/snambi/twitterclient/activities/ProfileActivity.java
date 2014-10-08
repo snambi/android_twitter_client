@@ -23,10 +23,12 @@ public class ProfileActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 			
+		String screenName = getIntent().getStringExtra("screenname");
+		
 		restClient = TwitterApplication.getRestClient();
 		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.replace(R.id.flProfileHeader, new ProfileHeaderFragment( restClient ) , "profile-fragment");
+		ft.replace(R.id.flProfileHeader, new ProfileHeaderFragment( restClient, screenName ) , "profile-fragment");
 		ft.commit();
 	}
 }

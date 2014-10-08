@@ -47,7 +47,6 @@ public class HomeTimelineFragment extends TwitterListFragment {
 		client.getHomeTimeLine(  counter,
 										new JsonHttpResponseHandler(){
 			
-			
 			@Override
 			public void onFailure(Throwable t, String s) {
 				Log.d( "debug", s, t);

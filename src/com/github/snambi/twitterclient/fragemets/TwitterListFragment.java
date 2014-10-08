@@ -3,6 +3,7 @@ package com.github.snambi.twitterclient.fragemets;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,13 +17,14 @@ import com.github.snambi.twitterclient.adapters.TwitterArrayAdapter;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.models.Tweet;
 
-public class TwitterListFragment extends Fragment {
+public class TwitterListFragment extends Fragment{
 	
 	protected TwitterRestClient client;
-	
 	protected ListView lvTweets;
 	protected List<Tweet> tweets = new ArrayList<Tweet>();
 	protected TwitterArrayAdapter aTweets=null;
+	
+	protected ImageClickListener imageListener=null;
 
 	public TwitterListFragment( ){
 	}
@@ -36,13 +38,7 @@ public class TwitterListFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 		client = TwitterApplication.getRestClient();
-		//TwitterRestClient c = (TwitterRestClient) savedInstanceState.getSerializable("client");
-		//String test = savedInstanceState.getString("test");
-		
-		//TwitterRestClient c  = (TwitterRestClient) getArguments().getSerializable("client");
-		//String test = getArguments().getString("test");
-
-		aTweets = new TwitterArrayAdapter(getActivity(), tweets);
+		aTweets = new TwitterArrayAdapter(getActivity(), tweets, imageListener);
 	}
 
 	@Override
@@ -52,8 +48,16 @@ public class TwitterListFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_twitter_list, container, false);
 		lvTweets = (ListView) view.findViewById(R.id.lvTweets);
 		lvTweets.setAdapter(aTweets);
-		
+				
 		return view;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {	
+		super.onAttach(activity);
+		if( activity instanceof ImageClickListener ){
+			imageListener = (ImageClickListener) activity;
+		}
 	}
 		
 	public TwitterRestClient getClient() {
@@ -73,5 +77,13 @@ public class TwitterListFragment extends Fragment {
 			tweets.add(position, tweet);
 			aTweets.notifyDataSetChanged();
 		}
+	}
+
+	public void onImageClick(String screenName ){
+		imageListener.onImageClick( screenName );
+	}
+	
+	public interface ImageClickListener{
+		public void onImageClick( String screenName );
 	}
 }

@@ -10,16 +10,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
 import com.github.snambi.twitterclient.clients.TwitterRestClient;
 import com.github.snambi.twitterclient.fragemets.HomeTimelineFragment;
 import com.github.snambi.twitterclient.fragemets.MentionsTimelineFragment;
+import com.github.snambi.twitterclient.fragemets.TwitterListFragment.ImageClickListener;
 import com.github.snambi.twitterclient.listeners.FragmentTabListener;
 import com.github.snambi.twitterclient.models.Tweet;
 
-public class TimelineActivity extends FragmentActivity {
+public class TimelineActivity extends FragmentActivity implements ImageClickListener{
 
 	TwitterRestClient twitterClient;	
 	HomeTimelineFragment homeFragment=null;
@@ -132,5 +134,15 @@ public class TimelineActivity extends FragmentActivity {
 				homeFragment.addTweetAtPosition(tweet, 0);
 			}
 		}
+	}
+
+	@Override
+	public void onImageClick(String screenName) {
+		Toast.makeText(getApplicationContext(), "screenname = " + screenName, Toast.LENGTH_SHORT).show();
+		
+		// launch a new activity
+		Intent intent = new Intent(this, ProfileActivity.class);
+		intent.putExtra("screenname", screenName);
+		startActivity(intent);
 	}
 }
