@@ -1,5 +1,7 @@
 package com.github.snambi.twitterclient.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -35,5 +37,15 @@ public class ProfileActivity extends FragmentActivity {
 		FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
 		ft2.replace(R.id.flProfileTweets, UserTimelineFragment.newInstance(screenName), "tweets-fragment");
 		ft2.commit();
+		
+		if( screenName !=null ){
+			getActionBar().setTitle( "@" + screenName );
+		}else{
+			SharedPreferences prefs = getSharedPreferences("com.github.snambi.twitterclient", Context.MODE_PRIVATE);
+			String userName = prefs.getString("screen_name", null);
+			getActionBar().setTitle("@" + userName);
+		}
+		
 	}
+	
 }

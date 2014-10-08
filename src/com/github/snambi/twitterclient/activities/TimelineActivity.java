@@ -138,7 +138,7 @@ public class TimelineActivity extends FragmentActivity implements ImageClickList
 
 	@Override
 	public void onImageClick(String screenName) {
-		Toast.makeText(getApplicationContext(), "screenname = " + screenName, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), "screenname = " + screenName, Toast.LENGTH_SHORT).show();
 		
 		// launch a new activity
 		Intent intent = new Intent(this, ProfileActivity.class);
