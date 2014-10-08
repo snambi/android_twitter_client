@@ -42,7 +42,8 @@ public class UserTimelineFragment extends TwitterListFragment {
 	public void onCreate(Bundle args) {
 		super.onCreate(args);
 		
-		if(  getArguments().getString(SCREEN_NAME) != null && 
+		if(  getArguments() != null &&
+				getArguments().getString(SCREEN_NAME) != null && 
 				!getArguments().getString(SCREEN_NAME).trim().equals("") ){
 			screenName = getArguments().getString(SCREEN_NAME).trim();
 		}

@@ -1,5 +1,9 @@
 package com.github.snambi.twitterclient.fragemets;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -73,25 +77,66 @@ public class ProfileHeaderFragment extends Fragment{
 	
 	private void loadDetails() {
 		
-		restClient.getMyInfo( new JsonHttpResponseHandler(){
 			
-			@Override
-			public void onFailure(Throwable arg0, JSONObject arg1) {
-				super.onFailure(arg0, arg1);
-			}
-			
-			@Override
-			public void onSuccess(int arg0, JSONObject json) {
-				User user = User.fromJson(json);
-				//getActionBar().setTitle( "@" + user.getScreenName() );
+			if( screenName == null ){
 				
-				tvProfileUserName.setText(user.getName());
-				tvProfileTagLine.setText(user.getTag());
-				tvProfileFollowers.setText(user.getFollowers() + " followers");
-				tvProfileFollowing.setText(user.getFollowing() + " follwiing");
-				ImageLoader imageLoader = ImageLoader.getInstance();
-				imageLoader.displayImage(user.getProfileImageUrl(), ivProfileUserImage );
+				restClient.getMyInfo( new JsonHttpResponseHandler(){
+					
+					@Override
+					public void onFailure(Throwable arg0, JSONObject arg1) {
+						super.onFailure(arg0, arg1);
+					}
+					
+					@Override
+					public void onSuccess(int arg0, JSONObject json) {
+						User user = User.fromJson(json);
+						//getActionBar().setTitle( "@" + user.getScreenName() );
+						
+						tvProfileUserName.setText(user.getName());
+						tvProfileTagLine.setText(user.getTag());
+						tvProfileFollowers.setText(user.getFollowers() + " followers");
+						tvProfileFollowing.setText(user.getFollowing() + " follwiing");
+						ImageLoader imageLoader = ImageLoader.getInstance();
+						imageLoader.displayImage(user.getProfileImageUrl(), ivProfileUserImage );
+					}
+				});
+
+			}else{
+				
+				ArrayList<String> screenNames = new ArrayList<String>();
+				screenNames.add(screenName);
+				
+				restClient.getUsersDetails(screenNames, new JsonHttpResponseHandler(){
+					
+					@Override
+					public void onFailure(Throwable error, JSONObject json) {
+						super.onFailure(error, json);
+					}
+					
+					@Override
+					public void onSuccess(int arg0, JSONArray jsonarray) {
+						// it should have only one object
+						try {
+							if( jsonarray.length() == 1 ){ 
+								JSONObject json = jsonarray.getJSONObject(0);
+								
+								User user = User.fromJson(json);
+								
+								tvProfileUserName.setText(user.getName());
+								tvProfileTagLine.setText(user.getTag());
+								tvProfileFollowers.setText(user.getFollowers() + " followers");
+								tvProfileFollowing.setText(user.getFollowing() + " follwiing");
+								ImageLoader imageLoader = ImageLoader.getInstance();
+								imageLoader.displayImage(user.getProfileImageUrl(), ivProfileUserImage );
+
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+
 			}
-		});
+		
 	}
 }

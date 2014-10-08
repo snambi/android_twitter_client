@@ -1,6 +1,7 @@
 package com.github.snambi.twitterclient.clients;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.scribe.builder.api.Api;
@@ -58,6 +59,7 @@ public class TwitterRestClient extends OAuthBaseClient implements Serializable {
 				
 		boolean m = false;
 		boolean s = false;
+		boolean o = false;
 		
 		if( counter.getMaxId() > 0){
 			params.put("max_id", counter.getMaxIdStr() );
@@ -65,19 +67,30 @@ public class TwitterRestClient extends OAuthBaseClient implements Serializable {
 		}
 		if( screenName != null && !screenName.trim().equals("")){
 			params.put("screen_name", screenName);
+			o =true;
 		}
 		
-		if( s==false && m==false){
+		if( (s==false && m==false) && o==false){
 			client.get(apiUrl, null, responseHandler);
+		}else if( ( s==false && m==false ) && o == true){
+			client.get(apiUrl, params, responseHandler);
 		}else{
 			client.get(apiUrl, params, responseHandler);
 		}
 	}
 	
 	
-	public void getMyInfo( AsyncHttpResponseHandler responseHandler){
+	public void getMyInfo(  AsyncHttpResponseHandler responseHandler){
 		String api_url = getApiUrl("account/verify_credentials.json");
 		client.get(api_url, responseHandler);
+	}
+	
+	public void getUsersDetails( ArrayList<String> screenNames, AsyncHttpResponseHandler responseHandler ){
+		String api_url = getApiUrl("/users/lookup.json");
+		
+		RequestParams params = new RequestParams();
+		params.put("screen_name",  screenNames);
+		client.get(api_url, params, responseHandler);
 	}
 	
 	
