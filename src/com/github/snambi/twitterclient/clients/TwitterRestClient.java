@@ -39,19 +39,19 @@ public class TwitterRestClient extends OAuthBaseClient implements Serializable {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 	
-	public void getUserTimeline(TweetsCounter counter, AsyncHttpResponseHandler responseHandler){
-		getTweetsFromApi("statuses/user_timeline.json", counter, responseHandler);
+	public void getUserTimeline(String screenName, TweetsCounter counter, AsyncHttpResponseHandler responseHandler){
+		getTweetsFromApi("statuses/user_timeline.json", counter, screenName, responseHandler);
 	}
 	
 	public void getHomeTimeLine( TweetsCounter counter, AsyncHttpResponseHandler responseHandler ){
-		getTweetsFromApi("statuses/home_timeline.json", counter, responseHandler);
+		getTweetsFromApi("statuses/home_timeline.json", counter, null, responseHandler);
 	}
 	
 	public void getMentionsTimeline( TweetsCounter counter, AsyncHttpResponseHandler responseHandler) {
-		getTweetsFromApi("statuses/mentions_timeline.json", counter, responseHandler);
+		getTweetsFromApi("statuses/mentions_timeline.json", counter, null, responseHandler);
 	}
 	
-	public void getTweetsFromApi( String api, TweetsCounter counter, AsyncHttpResponseHandler responseHandler ){
+	public void getTweetsFromApi( String api, TweetsCounter counter, String screenName, AsyncHttpResponseHandler responseHandler ){
 		//String apiUrl = getApiUrl("statuses/home_timeline.json");
 		String apiUrl = getApiUrl(api);
 		RequestParams params = new RequestParams();
@@ -62,6 +62,9 @@ public class TwitterRestClient extends OAuthBaseClient implements Serializable {
 		if( counter.getMaxId() > 0){
 			params.put("max_id", counter.getMaxIdStr() );
 			m=true;
+		}
+		if( screenName != null && !screenName.trim().equals("")){
+			params.put("screen_name", screenName);
 		}
 		
 		if( s==false && m==false){

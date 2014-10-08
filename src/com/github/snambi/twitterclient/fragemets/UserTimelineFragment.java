@@ -18,8 +18,20 @@ import com.github.snambi.twitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class UserTimelineFragment extends TwitterListFragment {
+	public static final String SCREEN_NAME="screen-name";
 
 	protected TweetsCounter counter = new TweetsCounter();
+	protected String screenName=null;
+	
+	public static UserTimelineFragment newInstance(String screenName ){
+		UserTimelineFragment fragment = new UserTimelineFragment();
+		if( screenName != null && !screenName.trim().equals("")){
+			Bundle data = new Bundle();
+			data.putString( SCREEN_NAME, screenName);
+			fragment.setArguments(data);
+		}
+		return fragment;
+	}
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -27,8 +39,14 @@ public class UserTimelineFragment extends TwitterListFragment {
 	}
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onCreate(Bundle args) {
+		super.onCreate(args);
+		
+		if(  getArguments().getString(SCREEN_NAME) != null && 
+				!getArguments().getString(SCREEN_NAME).trim().equals("") ){
+			screenName = getArguments().getString(SCREEN_NAME).trim();
+		}
+		
 		populateTimeline();
 	}
 
@@ -50,7 +68,7 @@ public class UserTimelineFragment extends TwitterListFragment {
 	}
 	
 	private void populateTimeline() {
-		client.getUserTimeline( counter, new JsonHttpResponseHandler(){
+		client.getUserTimeline( screenName, counter, new JsonHttpResponseHandler(){
 			
 			@Override
 			public void onFailure(Throwable t, String s) {

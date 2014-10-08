@@ -33,7 +33,7 @@ public class ProfileActivity extends FragmentActivity {
 		ft.commit();
 		
 		FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-		ft2.replace(R.id.flProfileTweets, new UserTimelineFragment(), "tweets-fragment");
+		ft2.replace(R.id.flProfileTweets, UserTimelineFragment.newInstance(screenName), "tweets-fragment");
 		ft2.commit();
 	}
 }
