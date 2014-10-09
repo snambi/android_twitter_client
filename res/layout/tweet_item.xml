@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/imgItemProfileImage"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="7dp"
@@ -27,6 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tvScreenName"
         android:layout_below="@+id/tvScreenName"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:text="@string/text_tweet_body" />
 
     <TextView

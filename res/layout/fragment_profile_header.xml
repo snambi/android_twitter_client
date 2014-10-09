@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#FFFFFF" >
     
         <RelativeLayout android:id="@+id/rlProfileHeader1"
         			android:layout_width="match_parent"
         			android:layout_height="wrap_content"
         			android:layout_alignParentTop="true"
-        			android:layout_alignParentLeft="true">
+        			android:layout_alignParentLeft="true"
+        			android:background="#FFFFFF">
         
         <ImageView
             android:id="@+id/ivProfileUserImage"
@@ -26,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
         
         <TextView 
@@ -35,6 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
 
     </RelativeLayout>
@@ -46,6 +52,7 @@
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#FFFFFF"
        >
         
         <TextView 

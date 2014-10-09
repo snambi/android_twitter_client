@@ -4,69 +4,6 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <!-- 
-    <RelativeLayout android:id="@+id/rlProfileHeader1"
-        			android:layout_width="match_parent"
-        			android:layout_height="wrap_content"
-        			android:layout_alignParentTop="true"
-        			android:layout_alignParentLeft="true">
-        
-        <ImageView
-            android:id="@+id/ivProfileUserImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ic_launcher"
-            android:contentDescription="@string/string_user_image" />
-        
-        <TextView 
-            android:id="@+id/tvProfileUserName"
-            android:layout_toRightOf="@id/ivProfileUserImage"
-            android:layout_alignTop="@id/ivProfileUserImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="user's name"
-            />
-        
-        <TextView 
-            android:id="@+id/tvProfileTagLine"
-            android:layout_below="@id/tvProfileUserName"
-            android:layout_alignLeft="@id/tvProfileUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="user's tagline"
-            />
-
-    </RelativeLayout>
-    
-    <LinearLayout
-        android:id="@+id/llProfileHeader2" 
-        android:layout_below="@id/rlProfileHeader1"
-        android:layout_alignLeft="@id/rlProfileHeader1"
-        android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-        android:orientation="horizontal"
-       >
-        
-        <TextView 
-            android:id="@+id/tvProfileFollowers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="43 followers"
-            />
-        
-        <TextView
-            android:id="@+id/tvProfileFollowing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="23 following" 
-            />
-    </LinearLayout>
-     -->
-
 	<FrameLayout android:id="@+id/flProfileHeader"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -75,14 +12,6 @@
 	    
 	</FrameLayout>
 	
-	<!-- 
-    <fragment
-        android:id="@+id/fragmentProfileHeader"
-        android:name="com.github.snambi.twitterclient.fragemets.ProfileHeaderFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_profile_header" />
-     -->
     <FrameLayout android:id="@+id/flProfileTweets"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,14 +19,4 @@
         android:layout_alignParentLeft="true">
     </FrameLayout>
     
-    <!-- 
-    <fragment
-        android:id="@+id/fragmentProfileTimelineTweets"
-        android:name="com.github.snambi.twitterclient.fragemets.UserTimelineFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/flProfileHeader"
-        tools:layout="@layout/fragment_twitter_list" />
-	 -->
-
 </RelativeLayout>

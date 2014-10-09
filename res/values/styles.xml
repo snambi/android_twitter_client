@@ -12,6 +12,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/TwitterActionBarStyle</item>
         <item name="android:actionBarTabTextStyle">@style/TwitterActionBarTabText</item>
+        <item name="android:actionBarTabStyle">@style/Twitter.ActionBar.TabView</item>
     </style>
     
     <!--  Action Bar Backgroud color -->
@@ -25,6 +26,12 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
     
+    <style name="Twitter.ActionBar.TabView" parent="android:style/Widget.Holo.ActionBar.TabView">
+        <!-- 
+        <item name="android:background">#FFFFFF</item>
+         -->
+         <item name="android:background">@drawable/tab_bar_background</item>
+    </style>
     
     <!--  Action Bar Tab Text color -->
     <style name="TwitterActionBarTabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
