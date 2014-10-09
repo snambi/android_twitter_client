@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.github.snambi.twitterclient.R;
 import com.github.snambi.twitterclient.TwitterApplication;
@@ -67,7 +66,7 @@ public class TimelineActivity extends FragmentActivity implements ImageClickList
 		Tab tab1 = actionBar
 			.newTab()
 			.setText("Home")
-			.setIcon(R.drawable.ic_home)
+			//.setIcon(R.drawable.ic_home)
 			.setTag("HomeTimelineFragment")
 			.setTabListener(
 				new FragmentTabListener<HomeTimelineFragment>(R.id.flContainer, this, "first",
@@ -79,7 +78,7 @@ public class TimelineActivity extends FragmentActivity implements ImageClickList
 		Tab tab2 = actionBar
 			.newTab()
 			.setText("Mentions")
-			.setIcon(R.drawable.ic_mentions)
+			//.setIcon(R.drawable.ic_mentions)
 			.setTag("MentionsTimelineFragment")
 			.setTabListener(
 			    new FragmentTabListener<MentionsTimelineFragment>(R.id.flContainer, this, "second",

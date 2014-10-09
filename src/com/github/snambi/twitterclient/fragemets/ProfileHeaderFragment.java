@@ -95,7 +95,7 @@ public class ProfileHeaderFragment extends Fragment{
 						tvProfileUserName.setText(user.getName());
 						tvProfileTagLine.setText(user.getTag());
 						tvProfileFollowers.setText(user.getFollowers() + " followers");
-						tvProfileFollowing.setText(user.getFollowing() + " follwiing");
+						tvProfileFollowing.setText(user.getFollowing() + " following");
 						ImageLoader imageLoader = ImageLoader.getInstance();
 						imageLoader.displayImage(user.getProfileImageUrl(), ivProfileUserImage );
 					}

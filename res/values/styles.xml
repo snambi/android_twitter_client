@@ -27,10 +27,7 @@
     </style>
     
     <style name="Twitter.ActionBar.TabView" parent="android:style/Widget.Holo.ActionBar.TabView">
-        <!-- 
-        <item name="android:background">#FFFFFF</item>
-         -->
-         <item name="android:background">@drawable/tab_bar_background</item>
+        <item name="android:background">@drawable/tab_bar_background</item>
     </style>
     
     <!--  Action Bar Tab Text color -->

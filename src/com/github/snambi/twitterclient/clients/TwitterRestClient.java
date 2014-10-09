@@ -70,15 +70,7 @@ public class TwitterRestClient extends OAuthBaseClient implements Serializable {
 			}
 			params.put("screen_name", screenName);
 		}
-		
-//		if( (s==false && m==false) && o==false){
-//			client.get(apiUrl, null, responseHandler);
-//		}else if( ( s==false && m==false ) && o == true){
-//			client.get(apiUrl, params, responseHandler);
-//		}else{
-//			client.get(apiUrl, params, responseHandler);
-//		}
-		
+				
 		if( params == null ){
 			client.get(apiUrl, null, responseHandler);
 		}else{
